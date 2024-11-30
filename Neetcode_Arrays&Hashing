@@ -1,0 +1,293 @@
+217. Contains Duplicate
+brute force approach-
+class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        for (int i = 0; i < nums.length - 1; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[i] == nums[j]) {
+                    return true; // Return true immediately when a duplicate is found
+                }
+            }
+        }
+        return false; // No duplicates found
+    }
+}
+-------------------------------------------------------------
+
+
+242. Valid Anagram
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length()!=t.length()){
+            return false;
+        }
+        char [] arr1=s.toCharArray();
+        char [] arr2=t.toCharArray();
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
+        for (int i = 0; i < arr1.length; i++) {
+            if (arr1[i] != arr2[i]) {
+                return false; // Mismatch found
+            }
+        }
+        return true; 
+    }
+}
+---------------------------------------------------
+1929. Concatenation of Array
+class Solution {
+    public int[] getConcatenation(int[] nums) {
+        int n=nums.length;
+        int [] nums2=new int[2*n];
+        for(int i=0;i<n;i++){
+            nums2[i]=nums[i];
+            nums2[i+n]=nums[i];
+        }
+        return nums2;
+    }
+}
+---------------------------------------------------
+1299. Replace Elements with Greatest Element on Right Side
+class Solution {
+    public int[] replaceElements(int[] arr) {
+        int n = arr.length;
+        int maxRight = -1; 
+
+
+        for (int i = n - 1; i >= 0; i--) {
+            int current = arr[i]; 
+            arr[i] = maxRight;    
+            maxRight = Math.max(maxRight, current);
+        }
+        
+        return arr; 
+    }
+}
+------------------------------------------------------------
+392. Is Subsequence
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        int sp = 0, tp = 0;
+        
+        while (sp< s.length() && tp < t.length()) {
+            
+            if (s.charAt(sp) == t.charAt(tp)) {
+                sp++;
+            }
+           
+            tp++;
+        }
+
+        
+        return sp == s.length();
+    }
+}
+--------------------------------------------------------------  
+optimized solution-
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        int i = 0;
+        int j = 0;
+        int count = 0;
+        char[] c1 = s.toCharArray();
+        char[] c2 = t.toCharArray();
+        while(i<c1.length && j<c2.length){
+            if(c1[i] == c2[j]){
+                count++;
+                i++;
+                j++;
+            }
+            else{
+                j++;
+            }
+        }
+        return count == c1.length; 
+    }
+}
+---------------------------------------------------------
+58. Length of Last Word
+class Solution {
+    public int lengthOfLastWord(String s) {
+    s=s.trim();
+    int l=0;
+        for(int i=s.length()-1;i>=0;i--){
+  if(s.charAt(i)==' '){
+    break;
+  }l++;
+        }
+        return l;
+    }
+}
+--------------------------------------------------
+1. Two Sum
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int n=nums.length;
+        for(int i=0;i<n-1;i++){
+            for(int j=i+1;j<n;j++){
+                if(nums[i]+nums[j]==target){
+                    return new int[] {i,j};
+                }
+            }
+        }
+        return new int[] {};
+    }
+}
+-----------------------------------------------
+14. Longest Common Prefix
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        
+       if (strs == null || strs.length == 0) {
+            return "";
+        }
+        
+        String prefix = strs[0];
+        for (int i = 1; i < strs.length; i++) {
+            
+            while (strs[i].indexOf(prefix) != 0) {
+                prefix = prefix.substring(0, prefix.length() - 1);
+                
+                if (prefix.isEmpty()) {
+                    return "";
+                }
+            }
+}  
+        return prefix;
+    }
+}
+----------------------------------------------------------------
+27. Remove Element
+class Solution {
+    public int removeElement(int[] nums, int val) {
+     int k=0;
+     for(int i=0;i<nums.length;i++)  {
+        if(nums[i]!=val){
+            nums[k]=nums[i];
+            k++;
+        }
+     } 
+     return k;
+    }
+}
+-----------------------------------
+929.unique email
+class Solution {
+    public int numUniqueEmails(String[] emails) {
+       Set<String>unique=new HashSet<>();
+       for (String email : emails) {
+            String[] parts = email.split("@");
+            String local = parts[0];
+            String domain = parts[1];
+            if (local.contains("+")) {
+                local = local.substring(0, local.indexOf('+')); 
+            }
+            local = local.replace(".", ""); 
+            String processedEmail = local + "@" + domain;
+            unique.add(processedEmail); 
+        }
+
+        return unique.size();
+    }
+}
+------------------------------------------
+169.Majority Elements
+class Solution {
+    public int majorityElement(int[] nums) {
+        int count = 0;
+        int candidate = 0;
+
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num;
+            }
+            count += (num == candidate) ? 1 : -1;
+        }   
+        count = 0;
+        for (int num : nums) {
+            if (num == candidate) {
+                count++;
+            }
+        }
+        return candidate;
+    }
+}
+-------------------------------------------
+Isomorphic string
+import java.util.HashMap;
+
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+
+        HashMap<Character, Character> mapS = new HashMap<>();
+        HashMap<Character, Character> mapT = new HashMap<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char charS = s.charAt(i);
+            char charT = t.charAt(i);
+
+            // Check mapping from s to t
+            if (mapS.containsKey(charS)) {
+                if (mapS.get(charS) != charT) {
+                    return false;
+                }
+            } else {
+                mapS.put(charS, charT);
+            }
+
+            // Check mapping from t to s
+            if (mapT.containsKey(charT)) {
+                if (mapT.get(charT) != charS) {
+                    return false;
+                }
+            } else {
+                mapT.put(charT, charS);
+            }
+        }
+
+        return true;
+    }
+}
+--------------------------------------------
+605.can place flower
+import java.util.HashMap;
+
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+
+        HashMap<Character, Character> mapS = new HashMap<>();
+        HashMap<Character, Character> mapT = new HashMap<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char charS = s.charAt(i);
+            char charT = t.charAt(i);
+
+            // Check mapping from s to t
+            if (mapS.containsKey(charS)) {
+                if (mapS.get(charS) != charT) {
+                    return false;
+                }
+            } else {
+                mapS.put(charS, charT);
+            }
+
+            // Check mapping from t to s
+            if (mapT.containsKey(charT)) {
+                if (mapT.get(charT) != charS) {
+                    return false;
+                }
+            } else {
+                mapT.put(charT, charS);
+            }
+        }
+
+        return true;
+    }
+}
+
